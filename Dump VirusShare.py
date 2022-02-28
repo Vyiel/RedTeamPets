@@ -30,6 +30,7 @@ for i in range(99999):
             else:
                 TempList.append(hash)
     else:
+        print("404 Page Not Found! Breaking Process and writing to CSV")
         break
     incrementor += 1
 
@@ -39,7 +40,7 @@ for i in TempList:
 
 df = pandas.DataFrame(FinalList, columns=["Hashes"])
 try:
-    df.to_csv('GFG.csv')
+    df.to_csv('GFG.csv', index=False)
     print("Successfully Created CSV!")
 except Exception as e:
     print("Failed to Write to CSV.", e)
