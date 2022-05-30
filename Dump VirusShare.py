@@ -40,7 +40,7 @@ for i in TempList:
 
 df = pandas.DataFrame(FinalList, columns=["Hashes"])
 try:
-    df.to_csv('GFG.csv', index=False)
+    df.to_csv('GFG.csv', index=True)
     print("Successfully Created CSV!")
 except Exception as e:
     print("Failed to Write to CSV.", e)
