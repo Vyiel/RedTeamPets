@@ -4,7 +4,7 @@ def generate(rlen):
 
 def offset(hex, pattern):
 	hexed = hex
-	ascii = bytearray.fromhex(hexed).decode()
+	ascii = bytearray.fromhex(hexed).decode()[::-1]
 	loc = pattern.find(ascii)
 	return loc
 
