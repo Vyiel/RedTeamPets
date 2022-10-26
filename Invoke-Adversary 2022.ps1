@@ -169,18 +169,23 @@ function do-Discover
         Write-Output "Network Domain Users: "
         Start-Process -FilePath "net.exe" -ArgumentList "user /domain" -NoNewWindow -PassThru -Verbose
         Write-Output "--------------------------------------------------------------------------------------"
+        Start-Sleep -Seconds 2
         Write-Output "Network Local Users: "
         Start-Process -FilePath "net.exe" -ArgumentList "user" -NoNewWindow -PassThru -Verbose
         Write-Output "--------------------------------------------------------------------------------------"
+        Start-Sleep -Seconds 2
         Write-Output "Network Domain Admins: "
         Start-Process -FilePath "net.exe" -ArgumentList "group ""domain admins"" /domain" -NoNewWindow -PassThru -Verbose
         Write-Output "--------------------------------------------------------------------------------------"
+        Start-Sleep -Seconds 2
         Write-Output "Local Services Running: "
         Start-Process -FilePath "net.exe" -ArgumentList "start" -NoNewWindow -PassThru -Verbose
         Write-Output "--------------------------------------------------------------------------------------"
+        Start-Sleep -Seconds 2
         Write-Output "WHOAMI: "
         Start-Process -FilePath "cmd.exe" -ArgumentList "/C whoami" -NoNewWindow -PassThru -Verbose
         Write-Output "--------------------------------------------------------------------------------------"
+        Start-Sleep -Seconds 2
         Write-Output "Network connections at present: "
         Start-Process -FilePath "netstat.exe" -ArgumentList "-ano" -NoNewWindow -PassThru -Verbose
         Write-Output "--------------------------------------------------------------------------------------"
