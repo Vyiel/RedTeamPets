@@ -2,6 +2,8 @@ import hashlib
 import sys
 import psutil
 import json
+import graphviz
+
 
 
 # shell_pid = int(input("Provide Shell PID "))
@@ -21,6 +23,8 @@ This program will generate a JSON in Tree-Node structure, that can be visualized
 Sites:
 https://jsoncrack.com/
 https://vanya.jp.net/vtree/
+
+Also, a graph is provided by default. For Displaying graph by default 'INSTALL GRAPHVIZ WINDOWS BINARY'
 
 Bugs: Sometimes PSUTIL doesn't grab the network connections.
 
@@ -153,11 +157,47 @@ def tree_maker(parent_id):
 first_item = list(unstructured_json)[0]
 # print(first_item)
 
-structured_json = tree_maker(first_item)
+structured_tree = tree_maker(first_item)
+structured_json = json.dumps(structured_tree, indent=4)
 # print(json.dumps(b, indent=4))
 file = open(proj_name+".json", 'w')
-file.write(json.dumps(structured_json, indent=4))
+file.write(structured_json)
 file.close()
+
+graph_file = open(proj_name+'.json')
+json_data = json.load(graph_file)
+
+
+# This Graphviz part is suggested and initial code done by Chat GPT.#
+
+def create_graph(json_data):
+    graph = graphviz.Digraph()
+
+    # Add nodes for the top-level process
+    process_id = list(json_data.keys())[0]
+    process_data = json_data[process_id]
+    process_label = f" Name: {process_data['Name']} \n Path: {process_data['Path']} \n Hash: {process_data['Hash']} \n Command Line: {process_data['Command Line']} \n Connections: {process_data['Connections']}"
+    process_label = process_label.replace("\\", "\\\\")
+    graph.node(process_id, label=process_label, shape='box')
+
+    # Recursively add nodes for child processes
+    def add_children(process_id, children_data):
+        for child_id, child_data in children_data.items():
+            child_label = f" Name: {child_data['Name']} \n Path: {child_data['Path']} \n Hash: {child_data['Hash']} \n Command Line: {child_data['Command Line']} \n Connections: {child_data['Connections']}"
+            child_label = child_label.replace("\\", "\\\\")
+            graph.node(child_id, label=child_label, shape='box')
+            graph.edge(process_id, child_id)
+            if 'Children' in child_data:
+                add_children(child_id, child_data['Children'])
+
+    if 'Children' in process_data:
+        add_children(process_id, process_data['Children'])
+
+    return graph
+
+
+graph = create_graph(json_data)
+graph.render(proj_name, format="png", view=True)
 
 print("A JSON file is stored with the project name. Go to JSONCrack.com and Visualize.")
 print("Enter Any key to Exit!!! ")
