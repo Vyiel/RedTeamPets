@@ -5,7 +5,6 @@ import json
 import graphviz
 
 
-
 # shell_pid = int(input("Provide Shell PID "))
 
 # print(Process(shell_pid).ppid())
@@ -29,6 +28,8 @@ Also, a graph is provided by default. For Displaying graph by default 'INSTALL G
 Bugs: Sometimes PSUTIL doesn't grab the network connections.
 
 Made By ProfessorVeil
+
+-----------------------------------------------------------------------------------------------------------
 
 """)
 
@@ -193,11 +194,14 @@ def create_graph(json_data):
     if 'Children' in process_data:
         add_children(process_id, process_data['Children'])
 
+    graph.attr(rankdir='LR')  # Left to right layout
+    graph.attr(fontname='Helvetica')
+
     return graph
 
 
 graph = create_graph(json_data)
-graph.render(proj_name, format="png", view=True)
+graph.render(proj_name, format="pdf", view=True)
 
 print("A JSON file is stored with the project name. Go to JSONCrack.com and Visualize.")
 print("Enter Any key to Exit!!! ")
