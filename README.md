@@ -82,3 +82,9 @@ Provide a PID from a CMD.
 Run a sample malware from the same CMD.
 Quit the CMD once it's activities are over.
 This program will generate a Tree-Node structure JSON, that can be analyzed and referenced for building the custom EDR queries.
+
+
+Outis, A ransomware as a service.
+
+A Dedicated Ransomware with it's own C2 and parmanent sleep that only works on instruction from C2. Currently undetected with AV that remains unnamed.
+Instructions, Codes, Usage are separately written on the Documentation.txt file.
