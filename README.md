@@ -88,3 +88,13 @@ Outis, A ransomware as a service.
 
 A Dedicated Ransomware with it's own C2 and parmanent sleep that only works on instruction from C2. Currently undetected with AV that remains unnamed.
 Instructions, Codes, Usage are separately written on the Documentation.txt file.
+
+
+LilMon:
+
+A small network monitor that monitors and logs IP connects to a set of IPs in a text file and stores it in a log file.
+
+Use Case:
+Demonstration Purposes
+Checking a computer for connects to known malicious IPs
+
