@@ -98,3 +98,8 @@ Use Case:
 Demonstration Purposes
 Checking a computer for connects to known malicious IPs
 
+
+RedSim (EXE + PY):
+
+A portable tool run directly or after being converted to exe, serves as a Red Team Simulation Tool. It can run one module or all at once. Please Note the fake malware package is a blank shell and doesn't have a backend that's listening for a connection. It just purposefully disturbs the client system.
+Kindly run with proper permissions and privileges.
