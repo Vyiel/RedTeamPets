@@ -306,14 +306,17 @@ def writeIOCs(path):
                 else:
                     ioc = row[0]
                     about = row[1]
+                    cprint(f"Blocking IOC: {ioc} against {about} in Firewall! ")
                     advProc = subprocess.Popen(
                         f'netsh advfirewall firewall add rule name=\"BlockIOC-{ioc}\" dir=in action=block remoteip={ioc}',
                         stdout=subprocess.PIPE)
                     time.sleep(0.5)
-                    print(f"WinADV Firewall Message: {advProc.stdout.read()}")
-                    qry = "INSERT INTO ipaddresses (ip, about, is_blocked) VALUES (%s, %s, %s)"
+                    cprint(f"WinADV Firewall Message: {advProc.stdout.read()}")
+                    cprint(f"Writing to DB! ")
+                    qry = "INSERT IGNORE INTO ipaddresses (ip, about, is_blocked) VALUES (%s, %s, %s)"
                     values = (ioc, about, 1)
                     cursor.execute(qry, values)
+                    conn.commit()
 
             conn.commit()
             cursor.close()
